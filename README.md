@@ -1,4 +1,4 @@
-﻿# LegalLabel â€” Backend + Legal Metrology Rules Engine
+﻿# LegalLabel - Backend + Legal Metrology Rules Engine
 
 
 
@@ -34,7 +34,7 @@ This backend:
 
 
 
-The Rules Engine's job is narrowly scoped to Legal Metrologyâ€“style checks (pricing, quantity, manufacturer/packer/importer details, dates, consumer care, FSSAI license presence). It does **not** evaluate ingredients, nutritional information, or allergen declarations â€” those are treated as a separate, sector-specific concern outside this engine's current responsibility.
+The Rules Engine's job is narrowly scoped to Legal Metrology-style checks (pricing, quantity, manufacturer/packer/importer details, dates, consumer care, FSSAI license presence). It does **not** evaluate ingredients, nutritional information, or allergen declarations - those are treated as a separate, sector-specific concern outside this engine's current responsibility.
 
 
 
@@ -54,7 +54,7 @@ Physical Product Label
 
 \&#x20;       â–¼
 
-\&#x20; CV/OCR + AI Pipeline        (separate component â€” not part of this repo)
+\&#x20; CV/OCR + AI Pipeline        (separate component - not part of this repo)
 
 \&#x20;       â”‚  produces structured JSON
 
@@ -68,7 +68,7 @@ Physical Product Label
 
 \&#x20; Legal Metrology Rules Engine
 
-\&#x20;       â”‚  deterministic Python checks â€” no AI/LLM involved in the decision
+\&#x20;       â”‚  deterministic Python checks - no AI/LLM involved in the decision
 
 \&#x20;       â–¼
 
@@ -80,7 +80,7 @@ Physical Product Label
 
 
 
-**Important architectural principle:** the CV/OCR + AI pipeline is only responsible for *extracting* structured information from a label image. It does not, and should not, decide legal compliance. All compliance decisions in this backend are made by deterministic Python logic in the Rules Engine â€” never by an LLM or any AI model.
+**Important architectural principle:** the CV/OCR + AI pipeline is only responsible for *extracting* structured information from a label image. It does not, and should not, decide legal compliance. All compliance decisions in this backend are made by deterministic Python logic in the Rules Engine - never by an LLM or any AI model.
 
 
 
@@ -100,9 +100,9 @@ Physical Product Label
 
 \- Clear separation between:
 
-&#x20; - **actual violations** â€” data was detected and is invalid/questionable
+&#x20; - **actual violations** - data was detected and is invalid/questionable
 
-&#x20; - **verification_required** â€” data was simply not detected by OCR/AI and needs manual verification (not treated as proof the label itself is non-compliant)
+&#x20; - **verification_required** - data was simply not detected by OCR/AI and needs manual verification (not treated as proof the label itself is non-compliant)
 
 \- Returns **all** detected violations in a single response, not just the first one found
 
@@ -242,7 +242,7 @@ Accepts a `ScannedLabelData` JSON payload and runs it through the Legal Metrolog
 
 \&#x20;     "field": "expiry\\_date\\_raw",
 
-\&#x20;     "issue": "Expiry/best-before date was not detected in the extracted data â€” verify manually.",
+\&#x20;     "issue": "Expiry/best-before date was not detected in the extracted data - verify manually.",
 
 \&#x20;     "severity": "low"
 
@@ -288,17 +288,17 @@ Accepts a `ScannedLabelData` JSON payload and runs it through the Legal Metrolog
 
 
 
-The Rules Engine (`rules/compliance.py`) is a set of deterministic, rule-based Python checks â€” there is no LLM or AI model involved in deciding compliance.
+The Rules Engine (`rules/compliance.py`) is a set of deterministic, rule-based Python checks - there is no LLM or AI model involved in deciding compliance.
 
 
 
 For each relevant field, the engine distinguishes between:
 
-\- **Not detected** â€” nothing was extracted for this field â†’ low-severity `verification\\_required` note
+\- **Not detected** - nothing was extracted for this field â†’ low-severity `verification\\_required` note
 
-\- **Detected but invalid** â€” something was extracted but fails a sanity check (e.g. non-numeric MRP, missing unit on a net quantity) â†’ `violations`, with `medium` or `high` severity
+\- **Detected but invalid** - something was extracted but fails a sanity check (e.g. non-numeric MRP, missing unit on a net quantity) â†’ `violations`, with `medium` or `high` severity
 
-\- **Detected and valid** â€” no issue is raised
+\- **Detected and valid** - no issue is raised
 
 
 
@@ -328,7 +328,7 @@ Checks currently implemented cover:
 
 
 
-The engine is structured as a list of small, independent check functions, making it straightforward to extend later with commodity-specific rules, font size/readability checks, label placement checks, or updated government rules â€” without modifying the core engine logic.
+The engine is structured as a list of small, independent check functions, making it straightforward to extend later with commodity-specific rules, font size/readability checks, label placement checks, or updated government rules - without modifying the core engine logic.
 
 
 
@@ -428,7 +428,7 @@ All endpoints, including `POST /api/v1/check-compliance`, can be tested directly
 
 
 
-## 12. Team Role â€” Member 3
+## 12. Team Role - Member 3
 
 
 
@@ -466,12 +466,13 @@ Responsibilities covered in this repository:
 
 \- Country-of-origin is not currently part of the structured schema and is therefore not checked.
 
-\- The backend currently has no database layer, authentication, or persistent storage â€” it operates on a single request/response basis.
+\- The backend currently has no database layer, authentication, or persistent storage - it operates on a single request/response basis.
 
 \- No frontend, dashboard, or complaint-management system is implemented in this repository.
 
 \- Date fields are checked only for basic format plausibility, not full calendar validation.
 
 \- Future work may include integrating the finalized structured JSON contract from the CV/OCR + AI team on an ongoing basis, expanding rule coverage, and connecting this backend to the project's frontend and dashboard components once those are available.
+
 
 
